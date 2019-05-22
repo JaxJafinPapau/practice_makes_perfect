@@ -1,0 +1,15 @@
+<h1>Search Results</h1>
+<h3>Total Students in house: <%= facade.student_count %></h3>
+<p>
+  <ul>
+    <% facade.students.each do |student| %>
+    <li>
+      <ul class="student">
+        <li class="name"><%= student.name %></li>
+        <li class="id"><%= student.id %></li>
+
+      </ul>
+    </li>
+    <% end %>
+  </ul>
+</p>
