@@ -5,21 +5,30 @@ class HogwartsService
   end
 
   def role_call
-    get_json["data"].first["attributes"]["students"]
+    JSON.parse(response.body)
   end
 
   private
-  
+
   def conn
-    Faraday.new(url: 'http://hogwarts-it.herokuapp.com')
+    Faraday.new(url: 'https://hogwarts-as-a-service.herokuapp.com')
   end
 
   def response
-    conn.get("/api/v1/house/#{@house}?api_key=#{ENV['HOG_API_KEY']}")
+    conn.get("/api/v1/house/#{houses[@house]}") do |conn|
+      conn.headers['x_api_key'] = ENV['HOG_API_KEY']
+    end
   end
 
-  def get_json
-    get_json = JSON.parse(response.body)
+  def houses
+    #id's pulled from hogwarts-as-a-service api
+    {
+      "Gryffindor" => 1,
+      "Ravenclaw" => 2,
+      "Hufflepuff" => 3,
+      "Slytherin" => 4
+    }
+
   end
 
 end
